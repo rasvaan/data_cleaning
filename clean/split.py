@@ -17,27 +17,27 @@ import csv
 from xml.dom.minidom import parse
 
 
-def main():
-    print('Started split script')
+def split_xml():
+    print('Started split XML script')
     # file paths (later: read from args)
     source_file = 'rijksmuseum_objects_adlib.xml'
     output_folder = '../out'
     # parse xml
-    dom = parse_file(source_file)
+    dom = parse_xml_file(source_file)
     print('Parsed file {}'.format(source_file))
     # list elements with value
-    topics = list_topics(dom)
+    topics = list_topics_xml(dom)
     print('Listed {} topics'.format(topics))
     # write (id, value) to csv file
     split_in_csv(topics, dom, output_folder)
 
 
-def parse_file(file_path):
+def parse_xml_file(file_path):
     os.chdir('data')
     return parse(file_path)
 
 
-def list_topics(dom):
+def list_topics_xml(dom):
     # Extract all XML elements that have relevant values (e.g. title)
     topics = set([])
     records = dom.getElementsByTagName('recordList').item(0).childNodes
@@ -55,8 +55,22 @@ def split_in_csv(topics, dom, out):
         file = open(split_file, "wb")
         writer = csv.writer(file)
         writer.writerow(['id', topic])
+        add_values_topic(topic, dom, writer)
         file.close()
 
 
+def add_values_topic(topic, dom, writer):
+    records = dom.getElementsByTagName('recordList').item(0).childNodes
+
+    # for record in records:
+    #     # get record identifier
+    #     id = get_identifier(record)
+    #     # get all nodes concerning the topic
+    #     record.getElementsByTagName(topic)
+    #     # write identifier and values to csv
+    #     for value in values:
+    #        writer.writerow([id, value])
+
+
 if __name__ == "__main__":
-    main()
+    split_xml()
