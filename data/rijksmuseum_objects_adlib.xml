@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adlibXML>
+    <recordList>
+        <record>
+            <priref>5216</priref>
+            <title>
+                <title>Officieren en andere schutters van wijk II in Amsterdam onder leiding van kapitein Frans Banninck Cocq en luitenant Willem van Ruytenburch, bekend als de ‘Nachtwacht’</title>
+            </title>
+            <title>
+                <title>Het korporaalschap van kapitein Frans Banninck Cocq en luitenant Willem van Ruytenburch, bekend als de &apos;Nachtwacht&apos;</title>
+            </title>
+            <maker>
+                <maker linkref="5706" linkfield="name" linkreffield="maker.name.lref" linkdb="\\s-adl-2.rijksmuseum.intra\Adlib$\cms\data+people">
+                    <frefn3>2064</frefn3>
+                    <frefn5>41</frefn5>
+                    <born_at_unknown option="" value="">
+                    </born_at_unknown>
+                    <died_at_unknown option="" value="">
+                    </died_at_unknown>
+                    <biography>Rembrandt Harmensz. van Rijn (1606-1669) is ongetwijfeld de bekendste Nederlandse schilder uit de 17de eeuw. Hij werd geboren in Leiden. Hij ging daar in de leer bij Jacob van Swanenburch. Bij Pieter Lastman in Amsterdam maakte hij vervolgens kennis met de sterke licht-donkercontrasten in het werk van Caravaggio. Terug in Leiden vestigde hij zich met Jan Lievens als zelfstandig schilder. Gerard Dou was zijn eerste leerling. In 1631 verhuisde hij naar Amsterdam. Hij kreeg steeds meer opdrachten voor portretten en had talloze leerlingen onder wie Ferdinand Bol en Govert Flinck. [Rijkscanon 2007]</biography>
+                    <name>Rijn, Rembrandt van</name>
+                    <name.gb/>
+                    <birth.date.end>1606-07-15</birth.date.end>
+                    <death.date.end>1669-10-08</death.date.end>
+                    <born_at>Leiden</born_at>
+                    <birth_on>1606-07-15</birth_on>
+                    <died_at>Amsterdam</died_at>
+                    <died_on>1669-10-08</died_on>
+                    <died_on_precision option="" value="">
+                    </died_on_precision>
+                    <birth_on_precision option="" value="">
+                    </birth_on_precision>
+                    <active.end/>
+                    <active_period.place.lref/>
+                    <active.begin/>
+                    <name.int/>
+                </maker>
+            </maker>
+        </record>
+        <record>
+            <priref>6420</priref>
+            <title>
+                <title>Brieflezende vrouw</title>
+            </title>
+            <maker>
+                <maker linkref="2529" linkfield="name" linkreffield="maker.name.lref" linkdb="\\s-adl-2.rijksmuseum.intra\Adlib$\cms\data+people">
+                    <frefn3>3537</frefn3>
+                    <frefn5>3537</frefn5>
+                    <born_at_unknown option="" value="">
+                    </born_at_unknown>
+                    <died_at_unknown option="" value="">
+                    </died_at_unknown>
+                    <biography>Johannes Vermeer (1632-1675) is eeuwenlang nauwelijks bekend geweest. Pas in de jaren &apos;70 van de 19de eeuw werd hij &apos;herontdekt&apos; en werden zijn schilderijen als &apos;Vermeers&apos; erkend. Vermeer woonde en werkte zijn hele leven in Delft en was ook actief in de kunsthandel. Mogelijk was hij een leerling van de Delftse schilder Carel Fabritius. In 1653 schreef hij zich in bij het Delftse schildersgilde. In zijn latere werk concentreerde de schilder zich op zorgvuldig geconstrueerde interieurs met één of enkele mensen (meestal vrouwen). [Rijkscanon 2007]</biography>
+                    <name>Vermeer, Johannes</name>
+                    <name.gb/>
+                    <birth.date.end>1632-10-31</birth.date.end>
+                    <death.date.end>1675-12-15</death.date.end>
+                    <born_at>Delft</born_at>
+                    <birth_on>1632</birth_on>
+                    <died_at>Delft</died_at>
+                    <died_on>1675-12</died_on>
+                    <died_on_precision option="" value="">
+                    </died_on_precision>
+                    <birth_on_precision option="" value="">
+                    </birth_on_precision>
+                    <active.end/>
+                    <active_period.place.lref/>
+                    <active.begin/>
+                    <name.int/>
+                </maker>
+            </maker>
+        </record>
+    </recordList>
+    <diagnostic>
+        <xmltype>Grouped</xmltype>
+        <hits>2</hits>
+        <search/>
+        <sort/>
+        <limit>0</limit>
+        <hits_on_display>2</hits_on_display>
+        <first_item>0</first_item>
+        <backward>0</backward>
+        <forward>0</forward>
+        <databasepath>\\s-adl-2.rijksmuseum.intra\adlib$\cms\data</databasepath>
+        <dbname>COLLECT</dbname>
+        <dsname/>
+        <language>0</language>
+        <epoch>1525772337</epoch>
+        <error>
+        </error>
+    </diagnostic>
+</adlibXML>
