@@ -57,24 +57,26 @@ def list_topics_dat(source):
 
 
 def add_dat_values(topic, source, writer):
-    print('Should be adding values about {}'.format(topic))
-
     with open(source) as file:
         # skip utf bomb
         file.read(3)
+        values = []
+
         for line in file:
             tag = line[:2]
-            values = []
             # record object number
             if (tag == 'IN'):
                 record_number = str.strip(line[3:])
             # record values topic
             if (tag == topic):
                 values.append(str.strip(line[3:]))
-            print(topic, values)
             # upon encountering ** write to csv
             if (tag == '**'):
-                print('end of record {}'.format(record_number))
+                # create new row for each value
+                for value in values:
+                    writer.writerow([record_number, value])
+                # empty list of values (start over for following record)
+                values = []
 
 
 def split_xml():
