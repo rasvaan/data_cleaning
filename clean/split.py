@@ -43,23 +43,38 @@ def split_dat_in_csv(topics, source, out):
 
 def list_topics_dat(source):
     topics = set([])
-    file = open(source, 'r')
 
-    for line in file:
-        topics.add(line[:2])
-
+    with open(source) as file:
+        # skip utf bomb
+        file.read(3)
+        for line in file:
+            topics.add(line[:2])
+    # remove seperator
     topics.remove('**')
-    topics.remove('\xef\xbb')
+    # remove object number
+    topics.remove('IN')
     return topics
 
 
 def add_dat_values(topic, source, writer):
     print('Should be adding values about {}'.format(topic))
-    # loop through source
-        # record object number
-        # record values topic
-        # upon encountering ** write to csv
-        # record
+
+    with open(source) as file:
+        # skip utf bomb
+        file.read(3)
+        for line in file:
+            tag = line[:2]
+            values = []
+            # record object number
+            if (tag == 'IN'):
+                record_number = str.strip(line[3:])
+            # record values topic
+            if (tag == topic):
+                values.append(str.strip(line[3:]))
+            print(topic, values)
+            # upon encountering ** write to csv
+            if (tag == '**'):
+                print('end of record {}'.format(record_number))
 
 
 def split_xml():
