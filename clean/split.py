@@ -17,6 +17,51 @@ import csv
 from xml.dom.minidom import parse
 
 
+def split_dat():
+    print('Started split dat script')
+    # file paths (later: read from args)
+    source = 'rijksmuseum_objects_adlib.dat'
+    output_folder = '../out'
+    os.chdir('data')
+    # list tags with value
+    topics = list_topics_dat(source)
+    print('Listed {} topics'.format(topics))
+    # write object numbers and values to csv files
+    split_dat_in_csv(topics, source, output_folder)
+
+
+def split_dat_in_csv(topics, source, out):
+    for topic in topics:
+        # create csv file
+        split_file = out + '/' + topic + '.csv'
+        file = open(split_file, "wb")
+        writer = csv.writer(file)
+        writer.writerow(['id', topic])
+        add_dat_values(topic, source, writer)
+        file.close()
+
+
+def list_topics_dat(source):
+    topics = set([])
+    file = open(source, 'r')
+
+    for line in file:
+        topics.add(line[:2])
+
+    topics.remove('**')
+    topics.remove('\xef\xbb')
+    return topics
+
+
+def add_dat_values(topic, source, writer):
+    print('Should be adding values about {}'.format(topic))
+    # loop through source
+        # record object number
+        # record values topic
+        # upon encountering ** write to csv
+        # record
+
+
 def split_xml():
     print('Started split XML script')
     # file paths (later: read from args)
@@ -73,4 +118,4 @@ def add_values_topic(topic, dom, writer):
 
 
 if __name__ == "__main__":
-    split_xml()
+    split_dat()
