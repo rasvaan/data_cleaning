@@ -42,13 +42,19 @@ def open_files(paths):
     for path in paths:
         # extract tag from file name
         tag = 'stub'
-        file = open(path)
+        file = codecs.open(path, 'r', 'utf-8')
         readers.append([tag, file])
     return readers
 
 
 def write_csv_to_dat(readers, file):
-    file.write('BLAAT')
+    for reader in readers:
+        tag = reader[0]
+        csv_reader = csv.reader(reader[1], delimiter=',', quotechar='"')
+        for row in csv_reader:
+            value = row[1]
+            print(value)
+            file.write(value)
 
 
 def close_files(readers):
