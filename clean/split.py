@@ -19,10 +19,10 @@ from xml.dom.minidom import parse
 
 def split_dat():
     print('Started split dat script')
-    # file paths (later: read from args)
-    source = 'rijksmuseum_objects_adlib.dat'
-    output_folder = '../out'
+    # file paths
     os.chdir('data')
+    source = 'source/rijksmuseum_objects_adlib.dat'
+    output_folder = 'split'
     # list tags with value
     topics = list_topics_dat(source)
     print('Listed {} topics'.format(topics))
@@ -81,22 +81,18 @@ def add_dat_values(topic, source, writer):
 
 def split_xml():
     print('Started split XML script')
-    # file paths (later: read from args)
-    source_file = 'rijksmuseum_objects_adlib.xml'
-    output_folder = '../out'
+    # file paths
+    os.chdir('data')
+    source_file = 'source/rijksmuseum_objects_adlib.xml'
+    output_folder = 'split'
     # parse xml
-    dom = parse_xml_file(source_file)
+    dom = parse(file_path)
     print('Parsed file {}'.format(source_file))
     # list elements with value
     topics = list_topics_xml(dom)
     print('Listed {} topics'.format(topics))
     # write (id, value) to csv file
     split_in_csv(topics, dom, output_folder)
-
-
-def parse_xml_file(file_path):
-    os.chdir('data')
-    return parse(file_path)
 
 
 def list_topics_xml(dom):
