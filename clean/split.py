@@ -64,6 +64,7 @@ def add_dat_values(topic, source, writer):
         # skip utf bomb
         file.read(1)
         values = []
+        tag = None
 
         for line in file:
             line_start = line[:2]
@@ -71,10 +72,11 @@ def add_dat_values(topic, source, writer):
             # record value
             if (line_start == topic):
                 values.append(unicode.strip(line[3:]))
-            # merge value with previous entry
-            # if (line_start == '  '):
-            #     merge = unicode.strip(line[3:])
-            #     print(merge)
+                tag = line_start
+            # merge newline value without tag with previous entry
+            if (line_start == '  ' and tag == topic):
+                merge = unicode.strip(line[3:])
+                values[-1] = values[-1] + ' ' + merge
             # record object number
             if (line_start == 'IN'):
                 record_number = unicode.strip(line[3:])
