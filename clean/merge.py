@@ -30,7 +30,7 @@ def merge_dat():
     file = codecs.open(merged_file, 'w', 'utf-8')
     file.write(u'\ufeff')
     # write each value of each object to new dat
-    file.write('DAT')
+    write_csv_to_dat(readers, file)
     # close files
     file.close()
     close_readers = close_files(readers)
@@ -45,6 +45,10 @@ def open_files(paths):
         file = open(path)
         readers.append([tag, file])
     return readers
+
+
+def write_csv_to_dat(readers, file):
+    file.write('BLAAT')
 
 
 def close_files(readers):
