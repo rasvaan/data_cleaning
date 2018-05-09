@@ -45,6 +45,8 @@ def list_topics_dat(source):
     topics.remove('  ')
     # remove object number
     topics.remove('IN')
+    # remove alternate number (we are ignoring these)
+    topics.remove('i3')
     return topics
 
 
@@ -65,6 +67,7 @@ def add_dat_values(topic, source, writer):
         file.read(1)
         values = []
         tag = None
+        ignore = False
 
         for line in file:
             line_start = line[:2]
@@ -80,14 +83,18 @@ def add_dat_values(topic, source, writer):
             # record object number
             if (line_start == 'IN'):
                 record_number = unicode.strip(line[3:])
+            # record if alternate number (ignore in this case)
+            if (line_start == 'i3'):
+                ignore = True
             # upon encountering ** write to csv
             if (line_start == '**'):
-                # create new row for each value
-                for value in values:
-                    writer.writerow([
-                        record_number.encode("utf-8"),
-                        value.encode("utf-8")
-                    ])
+                if (not ignore):
+                    # create new row for each value
+                    for value in values:
+                        writer.writerow([
+                            record_number.encode("utf-8"),
+                            value.encode("utf-8")
+                        ])
                 # empty list of values (start over for following record)
                 values = []
 
