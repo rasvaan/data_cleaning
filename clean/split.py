@@ -66,18 +66,22 @@ def add_dat_values(topic, source, writer):
         values = []
 
         for line in file:
-            tag = line[:2]
-            # record object number
-            if (tag == 'IN'):
-                record_number = unicode.strip(line[3:])
-            # record values topic
-            if (tag == topic):
+            line_start = line[:2]
+
+            # record value
+            if (line_start == topic):
                 values.append(unicode.strip(line[3:]))
+            # merge value with previous entry
+            # if (line_start == '  '):
+            #     merge = unicode.strip(line[3:])
+            #     print(merge)
+            # record object number
+            if (line_start == 'IN'):
+                record_number = unicode.strip(line[3:])
             # upon encountering ** write to csv
-            if (tag == '**'):
+            if (line_start == '**'):
                 # create new row for each value
                 for value in values:
-                    print(record_number, value)
                     writer.writerow([
                         record_number.encode("utf-8"),
                         value.encode("utf-8")
