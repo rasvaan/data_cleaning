@@ -13,6 +13,7 @@ __license__ = "MIT"
 
 
 import os
+import io
 import csv
 from xml.dom.minidom import parse
 
@@ -30,51 +31,57 @@ def split_dat():
     split_dat_in_csv(topics, source, output_folder)
 
 
-def split_dat_in_csv(topics, source, out):
-    for topic in topics:
-        # create csv file
-        split_file = out + '/' + topic + '.csv'
-        file = open(split_file, "wb")
-        writer = csv.writer(file)
-        writer.writerow(['id', topic])
-        add_dat_values(topic, source, writer)
-        file.close()
-
-
 def list_topics_dat(source):
     topics = set([])
 
-    with open(source) as file:
+    with io.open(source, 'r', encoding='utf-8') as file:
         # skip utf bomb
-        file.read(3)
+        file.read(1)
         for line in file:
             topics.add(line[:2])
     # remove seperator
     topics.remove('**')
+    # remove lines with no tag
+    topics.remove('  ')
     # remove object number
     topics.remove('IN')
     return topics
 
 
+def split_dat_in_csv(topics, source, out):
+    for topic in topics:
+        # create csv file
+        split_file = out + '/' + topic + '.csv'
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        writer.writerow(['id', topic.encode("utf-8")])
+        add_dat_values(topic, source, writer)
+        file.close()
+
+
 def add_dat_values(topic, source, writer):
-    with open(source) as file:
+    with io.open(source, 'r', encoding='utf-8') as file:
         # skip utf bomb
-        file.read(3)
+        file.read(1)
         values = []
 
         for line in file:
             tag = line[:2]
             # record object number
             if (tag == 'IN'):
-                record_number = str.strip(line[3:])
+                record_number = unicode.strip(line[3:])
             # record values topic
             if (tag == topic):
-                values.append(str.strip(line[3:]))
+                values.append(unicode.strip(line[3:]))
             # upon encountering ** write to csv
             if (tag == '**'):
                 # create new row for each value
                 for value in values:
-                    writer.writerow([record_number, value])
+                    print(record_number, value)
+                    writer.writerow([
+                        record_number.encode("utf-8"),
+                        value.encode("utf-8")
+                    ])
                 # empty list of values (start over for following record)
                 values = []
 
