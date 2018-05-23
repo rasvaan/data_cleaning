@@ -20,31 +20,52 @@ class TestListTopics(unittest.TestCase):
     def test_topics_one(self):
         """ Test listing topics from one record. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        source = os.path.join(data_folder, 'one_object.dat')
+        source = os.path.join(data_folder, 'source/one_object.dat')
         ignore = ['IN', 'I3']
         topics1 = split.list_topics_dat(source, ignore)
         topics2 = set([u'%0', u'BA', u'BE'])
-        print(topics1, topics2)
         self.assertEquals(topics1, topics2)
 
     def test_topics_two(self):
         """ Test listing topics from two records. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        source = os.path.join(data_folder, 'two_objects.dat')
+        source = os.path.join(data_folder, 'source/two_objects.dat')
         topics1 = split.list_topics_dat(source, [])
         topics2 = set([u'%0', u'BA', u'BE'])
-        print(topics1, topics2)
         self.assertEquals(topics1, topics2)
 
     def test_topics_break(self):
         """ Test listing topics from file with line break. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        source = os.path.join(data_folder, 'line_break.dat')
+        source = os.path.join(data_folder, 'source/line_break.dat')
         topics1 = split.list_topics_dat(source, [])
         topics2 = set([u'%0', u'BE', u'TF'])
-        print(topics1, topics2)
         self.assertEquals(topics1, topics2)
 
+class TestOutputSplits(unittest.TestCase):
+    """ TestCase for outputting split files """
+
+    def tearDown(self):
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        out = os.path.join(data_folder, 'split')
+        contents = os.listdir(out)
+
+        for content in contents:
+            path = os.path.join(out, content)
+            if os.path.isfile(path):
+                os.remove(path)
+
+    def test_split_in_csv(self):
+        """ Test csv creation. """
+        topics = set([u'%0', u'BE', u'TF'])
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'source/one_object.dat')
+        out = os.path.join(data_folder, 'split')
+        split.split_dat_in_csv(topics, source, out)
+        files1 = os.listdir(out)
+        files2 = ['%0.csv', 'BA.csv', 'BE.csv']
+        self.assertEquals(len(files1), len(files2))
+        self.assertEquals(set(files1), set(files2))
 
 
 if __name__ == '__main__':

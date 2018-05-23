@@ -53,7 +53,7 @@ def list_topics_dat(source, ignore):
 def split_dat_in_csv(topics, source, out):
     for topic in topics:
         # create csv file
-        split_file = out + '/' + topic + '.csv'
+        split_file = os.path.join(out, topic + '.csv')
         file = open(split_file, 'w')
         writer = csv.writer(file)
         writer.writerow(['id', topic.encode("utf-8")])
