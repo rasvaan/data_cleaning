@@ -8,7 +8,7 @@ type of value. After the values are cleaned, they can be exported again.
 """
 
 __author__ = "Chris Dijkshoorn"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __license__ = "MIT"
 
 
@@ -22,7 +22,7 @@ def split_dat():
     print('Started split dat script.')
     # file paths
     data_folder = os.path.join(os.getcwd(), 'data')
-    source = os.path.join(data_folder, 'source', 'rijksmuseum_objects_adlib.dat')
+    source = os.path.join(data_folder, 'source', 'rma_adlib_tagged.dat')
     output_folder = os.path.join(data_folder, 'split')
     # ignore object number and alternate number
     ignore = ['I3']
@@ -75,12 +75,11 @@ def add_dat_values(topic, source, writer):
             # record value
             if (line_start == topic):
                 values.append(unicode.strip(line[3:]))
+            # update current tag when line start is not empty
+            if (not line_start == '  '):
                 tag = line_start
             # merge newline value without tag with previous entry
             if (line_start == '  ' and tag == topic):
-                # print(line)
-                # print('tag: {} topic: {}'.format(tag, topic))
-                # print('record: {} values: {}'.format(record_number, values))
                 merge = unicode.strip(line[3:])
                 values[-1] = values[-1] + ' ' + merge
             # record object number
@@ -98,6 +97,7 @@ def add_dat_values(topic, source, writer):
                 # (start over for following record)
                 values = []
                 tag = None
+                record_number = None
 
 
 def split_xml():

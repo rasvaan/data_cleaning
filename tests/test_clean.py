@@ -8,13 +8,6 @@ import csv
 from clean import split
 
 
-class TestClean(unittest.TestCase):
-    """ TestCase for basic data cleaning functions """
-
-    def test_clean(self):
-        """ Split dat file. """
-        split.split_dat()
-
 class TestListTopics(unittest.TestCase):
     """ TestCase for listing topics in .dat file """
 
@@ -40,7 +33,7 @@ class TestListTopics(unittest.TestCase):
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/line_break.dat')
         topics1 = split.list_topics_dat(source, [])
-        topics2 = set([u'%0', u'BE', u'TF'])
+        topics2 = set([u'%0', u'BA', u'TF'])
         self.assertEquals(topics1, topics2)
 
 class TestOutputSplits(unittest.TestCase):
@@ -99,6 +92,20 @@ class TestOutputSplits(unittest.TestCase):
     def test_add_line_break(self):
         """ Test outputting csv file of records with value containing line break. """
         topic = u'TF'
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'source/line_break.dat')
+        out = os.path.join(data_folder, 'split')
+        split_file = os.path.join(out, topic + '.csv')
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        split.add_dat_values(topic, source, writer)
+        file.close()
+        number_lines = sum(1 for line in open(split_file))
+        self.assertEquals(number_lines, 2)
+
+    def test_add_line_break_other(self):
+        """ Test outputting csv file of records with value containing line break, but focussing on other value. """
+        topic = u'BA'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/line_break.dat')
         out = os.path.join(data_folder, 'split')
