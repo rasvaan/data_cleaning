@@ -8,7 +8,7 @@ type of value. After the values are cleaned, they can be exported again.
 """
 
 __author__ = "Chris Dijkshoorn"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __license__ = "MIT"
 
 
@@ -19,16 +19,17 @@ from xml.dom.minidom import parse
 
 
 def split_dat():
-    print('Started split dat script')
+    print('Started split dat script.')
     # file paths
     os.chdir('data')
-    source = 'source/rijksmuseum_objects_adlib.dat'
+    source = 'source/test.dat'
     output_folder = 'split'
     # list tags with value
     topics = list_topics_dat(source)
     print('Listed {} topics'.format(topics))
     # write object numbers and values to csv files
     split_dat_in_csv(topics, source, output_folder)
+    print('Done splitting.')
 
 
 def list_topics_dat(source):
@@ -40,13 +41,13 @@ def list_topics_dat(source):
         for line in file:
             topics.add(line[:2])
     # remove seperator
-    topics.remove('**')
+    topics.discard('**')
     # remove lines with no tag
-    topics.remove('  ')
+    topics.discard('  ')
     # remove object number
-    topics.remove('IN')
+    topics.discard('IN')
     # remove alternate number (we are ignoring these)
-    topics.remove('i3')
+    topics.discard('I3')
     return topics
 
 
@@ -78,6 +79,9 @@ def add_dat_values(topic, source, writer):
                 tag = line_start
             # merge newline value without tag with previous entry
             if (line_start == '  ' and tag == topic):
+                print(line)
+                print('tag: {} topic: {}'.format(tag, topic))
+                print('record: {} values: {}'.format(record_number, values))
                 merge = unicode.strip(line[3:])
                 values[-1] = values[-1] + ' ' + merge
             # record object number
@@ -95,8 +99,10 @@ def add_dat_values(topic, source, writer):
                             record_number.encode("utf-8"),
                             value.encode("utf-8")
                         ])
-                # empty list of values (start over for following record)
+                # empty list of values and reset tag
+                # (start over for following record)
                 values = []
+                tag = None
 
 
 def split_xml():
