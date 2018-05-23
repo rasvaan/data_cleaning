@@ -4,6 +4,7 @@ Unittests for data cleaning
 import os
 import random
 import unittest
+import csv
 from clean import split
 
 
@@ -57,7 +58,7 @@ class TestOutputSplits(unittest.TestCase):
 
     def test_split_in_csv(self):
         """ Test csv creation. """
-        topics = set([u'%0', u'BE', u'TF'])
+        topics = set([u'%0', u'BA', u'BE'])
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/one_object.dat')
         out = os.path.join(data_folder, 'split')
@@ -66,6 +67,34 @@ class TestOutputSplits(unittest.TestCase):
         files2 = ['%0.csv', 'BA.csv', 'BE.csv']
         self.assertEquals(len(files1), len(files2))
         self.assertEquals(set(files1), set(files2))
+
+    def test_add_values_one_record(self):
+        """ Test outputting csv file of one record and topic. """
+        topic = u'BE'
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'source/one_object.dat')
+        out = os.path.join(data_folder, 'split')
+        split_file = os.path.join(out, topic + '.csv')
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        split.add_dat_values(topic, source, writer)
+        file.close()
+        number_lines = sum(1 for line in open(split_file))
+        self.assertEquals(number_lines, 1)
+
+    def test_add_values_two_records(self):
+        """ Test outputting csv file of two records and one topic. """
+        topic = u'BE'
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'source/two_objects.dat')
+        out = os.path.join(data_folder, 'split')
+        split_file = os.path.join(out, topic + '.csv')
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        split.add_dat_values(topic, source, writer)
+        file.close()
+        number_lines = sum(1 for line in open(split_file))
+        self.assertEquals(number_lines, 2)
 
 
 if __name__ == '__main__':
