@@ -24,30 +24,29 @@ def split_dat():
     data_folder = os.path.join(os.getcwd(), 'data')
     source = os.path.join(data_folder, 'source', 'rijksmuseum_objects_adlib.dat')
     output_folder = os.path.join(data_folder, 'split')
+    # ignore object number and alternate number
+    ignore = ['IN', 'I3']
     # list tags with value
-    topics = list_topics_dat(source)
+    topics = list_topics_dat(source, ignore)
     print('Listed {} topics'.format(topics))
     # write object numbers and values to csv files
     split_dat_in_csv(topics, source, output_folder)
     print('Done splitting.')
 
 
-def list_topics_dat(source):
+def list_topics_dat(source, ignore):
     topics = set([])
+    # ignore seperators and lines with no tag
+    ignore_topics = ignore + ['**', '  ']
 
     with io.open(source, 'r', encoding='utf-8') as file:
         # skip utf bomb
         file.read(1)
         for line in file:
             topics.add(line[:2])
-    # remove seperator
-    topics.discard('**')
-    # remove lines with no tag
-    topics.discard('  ')
-    # remove object number
-    topics.discard('IN')
-    # remove alternate number (we are ignoring these)
-    topics.discard('I3')
+
+    for ignore_topic in ignore_topics:
+        topics.discard(ignore_topic)
     return topics
 
 

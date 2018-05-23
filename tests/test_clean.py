@@ -21,7 +21,8 @@ class TestListTopics(unittest.TestCase):
         """ Test listing topics from one record. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'one_object.dat')
-        topics1 = split.list_topics_dat(source)
+        ignore = ['IN', 'I3']
+        topics1 = split.list_topics_dat(source, ignore)
         topics2 = set([u'%0', u'BA', u'BE'])
         print(topics1, topics2)
         self.assertEquals(topics1, topics2)
@@ -30,7 +31,7 @@ class TestListTopics(unittest.TestCase):
         """ Test listing topics from two records. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'two_objects.dat')
-        topics1 = split.list_topics_dat(source)
+        topics1 = split.list_topics_dat(source, [])
         topics2 = set([u'%0', u'BA', u'BE'])
         print(topics1, topics2)
         self.assertEquals(topics1, topics2)
@@ -39,7 +40,7 @@ class TestListTopics(unittest.TestCase):
         """ Test listing topics from file with line break. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'line_break.dat')
-        topics1 = split.list_topics_dat(source)
+        topics1 = split.list_topics_dat(source, [])
         topics2 = set([u'%0', u'BE', u'TF'])
         print(topics1, topics2)
         self.assertEquals(topics1, topics2)
