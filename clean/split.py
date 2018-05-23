@@ -21,9 +21,9 @@ from xml.dom.minidom import parse
 def split_dat():
     print('Started split dat script.')
     # file paths
-    os.chdir('data')
-    source = 'source/rijksmuseum_objects_adlib.dat'
-    output_folder = 'split'
+    data_folder = os.path.join(os.getcwd(), 'data')
+    source = os.path.join(data_folder, 'source', 'rijksmuseum_objects_adlib.dat')
+    output_folder = os.path.join(data_folder, 'split')
     # list tags with value
     topics = list_topics_dat(source)
     print('Listed {} topics'.format(topics))
