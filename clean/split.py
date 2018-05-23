@@ -25,7 +25,7 @@ def split_dat():
     source = os.path.join(data_folder, 'source', 'rijksmuseum_objects_adlib.dat')
     output_folder = os.path.join(data_folder, 'split')
     # ignore object number and alternate number
-    ignore = ['IN', 'I3']
+    ignore = ['I3']
     # list tags with value
     topics = list_topics_dat(source, ignore)
     print('Listed {} topics'.format(topics))
@@ -36,8 +36,8 @@ def split_dat():
 
 def list_topics_dat(source, ignore):
     topics = set([])
-    # ignore seperators and lines with no tag
-    ignore_topics = ignore + ['**', '  ']
+    # ignore seperators, object numbers and lines with no tag
+    ignore_topics = ignore + ['**', 'IN', '  ']
 
     with io.open(source, 'r', encoding='utf-8') as file:
         # skip utf bomb
@@ -67,7 +67,7 @@ def add_dat_values(topic, source, writer):
         file.read(1)
         values = []
         tag = None
-        ignore = False
+        record_number = None
 
         for line in file:
             line_start = line[:2]
@@ -78,26 +78,22 @@ def add_dat_values(topic, source, writer):
                 tag = line_start
             # merge newline value without tag with previous entry
             if (line_start == '  ' and tag == topic):
-                print(line)
-                print('tag: {} topic: {}'.format(tag, topic))
-                print('record: {} values: {}'.format(record_number, values))
+                # print(line)
+                # print('tag: {} topic: {}'.format(tag, topic))
+                # print('record: {} values: {}'.format(record_number, values))
                 merge = unicode.strip(line[3:])
                 values[-1] = values[-1] + ' ' + merge
             # record object number
             if (line_start == 'IN'):
                 record_number = unicode.strip(line[3:])
-            # record if alternate number (ignore in this case)
-            if (line_start == 'i3'):
-                ignore = True
             # upon encountering ** write to csv
             if (line_start == '**'):
-                if (not ignore):
-                    # create new row for each value
-                    for value in values:
-                        writer.writerow([
-                            record_number.encode("utf-8"),
-                            value.encode("utf-8")
-                        ])
+                # create new row for each value
+                for value in values:
+                    writer.writerow([
+                        record_number.encode("utf-8"),
+                        value.encode("utf-8")
+                    ])
                 # empty list of values and reset tag
                 # (start over for following record)
                 values = []

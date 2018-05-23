@@ -96,6 +96,19 @@ class TestOutputSplits(unittest.TestCase):
         number_lines = sum(1 for line in open(split_file))
         self.assertEquals(number_lines, 2)
 
+    def test_add_line_break(self):
+        """ Test outputting csv file of records with value containing line break. """
+        topic = u'TF'
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'source/line_break.dat')
+        out = os.path.join(data_folder, 'split')
+        split_file = os.path.join(out, topic + '.csv')
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        split.add_dat_values(topic, source, writer)
+        file.close()
+        number_lines = sum(1 for line in open(split_file))
+        self.assertEquals(number_lines, 2)
 
 if __name__ == '__main__':
     unittest.main()
