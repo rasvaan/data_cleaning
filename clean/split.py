@@ -51,14 +51,19 @@ def list_topics_dat(source, ignore):
 
 
 def split_dat_in_csv(topics, source, out):
-    for topic in topics:
+    file_count = 1
+    sorted_topics = sorted(list(topics))
+
+    for topic in sorted_topics:
         # create csv file
-        split_file = os.path.join(out, topic + '.csv')
+        file_name = '{}_{}.csv'.format(file_count, topic)
+        split_file = os.path.join(out, file_name)
         file = open(split_file, 'w')
         writer = csv.writer(file)
-        writer.writerow(['id', topic.encode("utf-8")])
+        writer.writerow(['id', topic.encode('utf-8')])
         add_dat_values(topic, source, writer)
         file.close()
+        file_count += 1
 
 
 def add_dat_values(topic, source, writer):

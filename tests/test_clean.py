@@ -57,7 +57,7 @@ class TestOutputSplits(unittest.TestCase):
         out = os.path.join(data_folder, 'split')
         split.split_dat_in_csv(topics, source, out)
         files1 = os.listdir(out)
-        files2 = ['%0.csv', 'BA.csv', 'BE.csv', u'MP', u'mP']
+        files2 = ['1_%0.csv', '2_BA.csv', '3_BE.csv', '4_MP.csv', '5_mP.csv']
         self.assertEquals(len(files1), len(files2))
         self.assertEquals(set(files1), set(files2))
 
