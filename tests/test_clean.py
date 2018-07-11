@@ -17,7 +17,7 @@ class TestListTopics(unittest.TestCase):
         source = os.path.join(data_folder, 'source/one_object.dat')
         ignore = ['IN', 'I3']
         topics1 = split.list_topics_dat(source, ignore)
-        topics2 = set([u'%0', u'BA', u'BE'])
+        topics2 = set([u'%0', u'BA', u'BE', u'MP', u'mP'])
         self.assertEquals(topics1, topics2)
 
     def test_topics_two(self):
@@ -51,13 +51,13 @@ class TestOutputSplits(unittest.TestCase):
 
     def test_split_in_csv(self):
         """ Test csv creation. """
-        topics = set([u'%0', u'BA', u'BE'])
+        topics = set([u'%0', u'BA', u'BE', u'MP', u'mP'])
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/one_object.dat')
         out = os.path.join(data_folder, 'split')
         split.split_dat_in_csv(topics, source, out)
         files1 = os.listdir(out)
-        files2 = ['%0.csv', 'BA.csv', 'BE.csv']
+        files2 = ['%0.csv', 'BA.csv', 'BE.csv', u'MP', u'mP']
         self.assertEquals(len(files1), len(files2))
         self.assertEquals(set(files1), set(files2))
 
