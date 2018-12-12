@@ -7,7 +7,7 @@ Merge CSV files into one Adlib file that can be imported.
 """
 
 __author__ = "Chris Dijkshoorn"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __license__ = "MIT"
 
 
@@ -15,14 +15,14 @@ import os
 import glob
 import csv
 import codecs
-
+import datetime
 
 def merge_dat():
     print('Started merge csv script')
     # file paths
     os.chdir('data')
     source_folder = 'merge'
-    merged_file = 'out/merged.dat'
+    merged_file = 'out/merge-' + datetime.datetime.now().strftime("%Y%m%d") + '.dat'
     # get list of relvant files
     file_paths = list_file_paths(source_folder)
     # create dictionary for data
@@ -56,8 +56,8 @@ def csv_to_dict(paths):
             value = row[1]
 
             if not object_number in dict:
-                # add new object dict with value
-                dict[object_number] = {tag: [value]}
+                # add new object dict with value and object number
+                dict[object_number] = {tag: [value], "IN": [object_number]}
             else:
                 object_dict = dict[object_number]
                 if not tag in object_dict:
