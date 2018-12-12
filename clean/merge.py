@@ -47,7 +47,7 @@ def csv_to_dict(paths):
 
     for path in paths:
         file = codecs.open(path, 'r', 'utf-8')
-        csv_reader = csv.reader(file, delimiter=',', quotechar='"')
+        csv_reader = unicode_csv_reader(file, delimiter=',', quotechar='"')
         # extract tag from first row
         tag = next(csv_reader)[1]
 
@@ -67,8 +67,21 @@ def csv_to_dict(paths):
                     # append value to existing list
                     object_dict[tag].append(value)
         file.close()
-    print(dict)
     return dict
+
+# unicode reader (https://docs.python.org/2/library/csv.html)
+def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):
+    # csv.py doesn't do Unicode; encode temporarily as UTF-8:
+    csv_reader = csv.reader(utf_8_encoder(unicode_csv_data),
+                            dialect=dialect, **kwargs)
+    for row in csv_reader:
+        # decode UTF-8 back to Unicode, cell by cell:
+        yield [unicode(cell, 'utf-8') for cell in row]
+
+
+def utf_8_encoder(unicode_csv_data):
+    for line in unicode_csv_data:
+        yield line.encode('utf-8')
 
 
 def write_dict_to_dat(dict, file):
@@ -87,7 +100,10 @@ def write_dict_to_dat(dict, file):
         for tag in tags:
             values = object_dict[tag]
             for value in values:
-                file.write(tag + " " + value + "\r\n")
+                file.write(tag)
+                if not value == "":
+                    file.write(" " + value)
+                file.write("\r\n")
         # write sepperator
         file.write("**\r\n")
     file.close()
