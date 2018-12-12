@@ -33,6 +33,7 @@ class TestMerge(unittest.TestCase):
             if os.path.isfile(path):
                 os.remove(path)
 
+
     def test_unicode(self):
         """ Test handling of non-ascii characters. """
         unicode_present = False
@@ -43,6 +44,18 @@ class TestMerge(unittest.TestCase):
         merge.write_dict_to_dat(data, merged_file)
         with open(merged_file) as dat_file:
             if 'Rÿkßmusêum' in dat_file.read():
+                unicode_present = True
+        self.assertEquals(unicode_present, True)
+
+
+    def test_order(self):
+        """ Test retaining of order values. """
+        csv_file = os.path.join(os.getcwd(), 'tests/data/source/1_%0.csv')
+        merged_file = os.path.join(os.getcwd(), 'tests/data/test_merge/merge.dat')
+        data_dict = merge.csv_to_dict([csv_file])
+        merge.write_dict_to_dat(data_dict, merged_file)
+        with open(merged_file) as dat_file:
+            if '%0 10000856\r\n%0 10000858' in dat_file.read():
                 unicode_present = True
         self.assertEquals(unicode_present, True)
 
