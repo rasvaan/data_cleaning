@@ -67,25 +67,30 @@ def csv_to_dict(paths):
                     # append value to existing list
                     object_dict[tag].append(value)
         file.close()
+    print(dict)
     return dict
 
 
 def write_dict_to_dat(dict, file):
     print('Writing dictionary to ' + file)
     file = codecs.open(file, 'w', 'utf-8')
+    object_numbers = dict.keys()
+    object_numbers.sort()
+
+    # write utf bomb
     file.write(u'\ufeff')
-    # write each value of each object to new dat
-    # write_dict_to_dat(readers, file)
-    # close files
+    # write each value of each object
+    for object_number in object_numbers:
+        object_dict = dict[object_number]
+        tags = object_dict.keys()
+        tags.sort()
+        for tag in tags:
+            values = object_dict[tag]
+            for value in values:
+                file.write(tag + " " + value + "\r\n")
+        # write sepperator
+        file.write("**\r\n")
     file.close()
-    # close_readers = close_files(readers)
-
-
-
-# def close_files(readers):
-#     for reader in readers:
-#         file = reader[1]
-#         file.close()
 
 
 if __name__ == "__main__":
