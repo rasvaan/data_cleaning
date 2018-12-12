@@ -41,7 +41,7 @@ class TestOutputSplits(unittest.TestCase):
 
     def tearDown(self):
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         contents = os.listdir(out)
 
         for content in contents:
@@ -54,7 +54,7 @@ class TestOutputSplits(unittest.TestCase):
         topics = set([u'%0', u'BA', u'BE', u'MP', u'mP'])
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/one_object.dat')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         split.split_dat_in_csv(topics, source, out)
         files1 = os.listdir(out)
         files2 = ['1_%0.csv', '2_BA.csv', '3_BE.csv', '4_MP.csv', '5_mP.csv']
@@ -66,7 +66,7 @@ class TestOutputSplits(unittest.TestCase):
         topic = u'BE'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/one_object.dat')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         split_file = os.path.join(out, topic + '.csv')
         file = open(split_file, 'w')
         writer = csv.writer(file)
@@ -80,7 +80,7 @@ class TestOutputSplits(unittest.TestCase):
         topic = u'BE'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/two_objects.dat')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         split_file = os.path.join(out, topic + '.csv')
         file = open(split_file, 'w')
         writer = csv.writer(file)
@@ -94,7 +94,7 @@ class TestOutputSplits(unittest.TestCase):
         topic = u'TF'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/line_break.dat')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         split_file = os.path.join(out, topic + '.csv')
         file = open(split_file, 'w')
         writer = csv.writer(file)
@@ -108,7 +108,7 @@ class TestOutputSplits(unittest.TestCase):
         topic = u'BA'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source = os.path.join(data_folder, 'source/line_break.dat')
-        out = os.path.join(data_folder, 'split')
+        out = os.path.join(data_folder, 'test_split')
         split_file = os.path.join(out, topic + '.csv')
         file = open(split_file, 'w')
         writer = csv.writer(file)

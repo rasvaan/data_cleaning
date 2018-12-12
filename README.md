@@ -11,7 +11,7 @@ python clean/split.py
 
 To run tests:
 ```
-python -m unittest -v tests.test_clean
+python -m unittest -v tests.test_split
 ```
 
 ## Merge CSV files into Adlib dat file
@@ -25,5 +25,5 @@ python clean/merge.py
 
 To run tests:
 ```
-write some tests
+python -m unittest -v tests.test_merge
 ```
