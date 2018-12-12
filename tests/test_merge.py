@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Unittests for data cleaning
 """
@@ -8,15 +10,41 @@ import csv
 from clean import merge
 
 
-class TestListFiles(unittest.TestCase):
-    """ TestCase for listing csv files in folder """
+class TestListCsvFiles(unittest.TestCase):
+    """ TestCase for listing csv files """
 
     def test_csv(self):
         """ Test listing csv files. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        csv_files1 = merge.list_file_paths(data_folder)
-        csv_files2 = []
-        self.assertEquals(csv_files1, csv_files2)
+        csv_files = merge.list_file_paths(data_folder + '/source')
+        self.assertEquals(len(csv_files), 3)
+
+
+class TestMerge(unittest.TestCase):
+    """ TestCase for csv file merging """
+
+    def tearDown(self):
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        out = os.path.join(data_folder, 'test_merge')
+        contents = os.listdir(out)
+
+        for content in contents:
+            path = os.path.join(out, content)
+            if os.path.isfile(path):
+                os.remove(path)
+
+    def test_unicode(self):
+        """ Test handling of non-ascii characters. """
+        unicode_present = False
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        csv_files = merge.list_file_paths(data_folder + '/source')
+        merged_file = os.path.join(os.getcwd(), 'tests/data/test_merge/merge-test-unicode.dat')
+        data = merge.csv_to_dict(csv_files)
+        merge.write_dict_to_dat(data, merged_file)
+        with open(merged_file) as dat_file:
+            if 'Rÿkßmusêum' in dat_file.read():
+                unicode_present = True
+        self.assertEquals(unicode_present, True)
 
 
 if __name__ == '__main__':
