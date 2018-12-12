@@ -12,6 +12,7 @@ __license__ = "MIT"
 
 
 import os
+import glob
 import csv
 import codecs
 
@@ -20,7 +21,7 @@ def merge_dat():
     print('Started merge csv script')
     # file paths
     os.chdir('data')
-    source_folder = 'split'
+    source_folder = 'merge'
     merged_file = 'out/merged.dat'
     # get list of relvant files
     file_paths = list_file_paths(source_folder)
@@ -63,7 +64,11 @@ def close_files(readers):
         file.close()
 
 def list_file_paths(source_folder):
-    return ['split/TI.csv', 'split/VV.csv']
+    csv_files = []
+
+    for file in glob.glob(source_folder + "/*.csv"):
+        csv_files.append(file)
+    return csv_files
 
 if __name__ == "__main__":
     merge_dat()
