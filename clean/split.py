@@ -39,9 +39,7 @@ def list_topics_dat(source, ignore):
     # ignore seperators, object numbers and lines with no tag
     ignore_topics = ignore + ['**', 'IN', '  ']
 
-    with io.open(source, 'r', encoding='utf-8') as file:
-        # skip utf bomb
-        file.read(1)
+    with io.open(source, 'r', encoding='utf-8-sig') as file:
         for line in file:
             topics.add(line[:2])
 
@@ -67,9 +65,7 @@ def split_dat_in_csv(topics, source, out):
 
 
 def add_dat_values(topic, source, writer):
-    with io.open(source, 'r', encoding='utf-8') as file:
-        # skip utf bomb
-        file.read(1)
+    with io.open(source, 'r', encoding='utf-8-sig') as file:
         values = []
         tag = None
         record_number = None

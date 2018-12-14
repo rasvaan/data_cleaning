@@ -47,7 +47,7 @@ def csv_to_dict(paths):
 
     for path in paths:
         file = codecs.open(path, 'r', 'utf-8')
-        csv_reader = unicode_csv_reader(file, delimiter=',', quotechar='"')
+        csv_reader = unicode_csv_reader(file, delimiter=';', quotechar='"')
         # extract tag from first row
         tag = next(csv_reader)[1]
 
@@ -90,8 +90,6 @@ def write_dict_to_dat(dict, file):
     object_numbers = dict.keys()
     object_numbers.sort()
 
-    # write utf bomb
-    file.write(u'\ufeff')
     # write each value of each object
     for object_number in object_numbers:
         object_dict = dict[object_number]
