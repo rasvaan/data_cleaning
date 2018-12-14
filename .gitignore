@@ -1,8 +1,6 @@
 rma_adlib_tagged.dat
 
-merge/
 out/
-split/
 .DS_Store
 
 *.pyc

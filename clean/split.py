@@ -28,8 +28,8 @@ def split_dat():
     logging.info('Started split dat script.')
     # file paths
     data_folder = os.path.join(os.getcwd(), 'data')
-    source = os.path.join(data_folder, 'source', 'rma_adlib_tagged.dat')
-    output_folder = os.path.join(data_folder, 'split')
+    source = os.path.join(data_folder, 'split', 'records.dat')
+    output_folder = os.path.join(data_folder, 'out')
     # ignore object number and alternate number
     ignore = ['I3']
     # list tags with value
