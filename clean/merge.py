@@ -55,7 +55,10 @@ def csv_to_dict(paths):
 
     for path in paths:
         file = codecs.open(path, 'r', 'utf-8')
-        csv_reader = unicode_csv_reader(file, delimiter=';', quotechar='"')
+        # sniff out delimiter and reset position
+        dialect = csv.Sniffer().sniff(file.readline())
+        file.seek(0)
+        csv_reader = unicode_csv_reader(file, dialect)
         # extract tag from first row
         tag = next(csv_reader)[1]
 
