@@ -15,7 +15,6 @@ __license__ = "MIT"
 import os
 import io
 import csv
-from xml.dom.minidom import parse
 
 
 def split_dat():
@@ -99,57 +98,6 @@ def add_dat_values(topic, source, writer):
                 values = []
                 tag = None
                 record_number = None
-
-
-def split_xml():
-    print('Started split XML script')
-    # file paths
-    os.chdir('data')
-    source_file = 'source/rijksmuseum_objects_adlib.xml'
-    output_folder = 'split'
-    # parse xml
-    dom = parse(file_path)
-    print('Parsed file {}'.format(source_file))
-    # list elements with value
-    topics = list_topics_xml(dom)
-    print('Listed {} topics'.format(topics))
-    # write (id, value) to csv file
-    split_in_csv(topics, dom, output_folder)
-
-
-def list_topics_xml(dom):
-    # Extract all XML elements that have relevant values (e.g. title)
-    topics = set([])
-    records = dom.getElementsByTagName('recordList').item(0).childNodes
-
-    for record in records:
-        for element in record.childNodes:
-            if (element.nodeType == element.ELEMENT_NODE):
-                topics.add(element.nodeName)
-    return topics
-
-
-def split_in_csv(topics, dom, out):
-    for topic in topics:
-        split_file = out + '/' + topic + '.csv'
-        file = open(split_file, "wb")
-        writer = csv.writer(file)
-        writer.writerow(['id', topic])
-        add_values_topic(topic, dom, writer)
-        file.close()
-
-
-def add_values_topic(topic, dom, writer):
-    records = dom.getElementsByTagName('recordList').item(0).childNodes
-
-    # for record in records:
-    #     # get record identifier
-    #     id = get_identifier(record)
-    #     # get all nodes concerning the topic
-    #     record.getElementsByTagName(topic)
-    #     # write identifier and values to csv
-    #     for value in values:
-    #        writer.writerow([id, value])
 
 
 if __name__ == "__main__":
