@@ -6,3 +6,4 @@ split/
 .DS_Store
 
 *.pyc
+*.log

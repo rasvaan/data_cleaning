@@ -15,10 +15,17 @@ __license__ = "MIT"
 import os
 import io
 import csv
+import logging
 
+logging.basicConfig(
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    filename='split.log',
+    level=logging.INFO
+)
 
 def split_dat():
-    print('Started split dat script.')
+    logging.info('Started split dat script.')
     # file paths
     data_folder = os.path.join(os.getcwd(), 'data')
     source = os.path.join(data_folder, 'source', 'rma_adlib_tagged.dat')
@@ -27,10 +34,10 @@ def split_dat():
     ignore = ['I3']
     # list tags with value
     topics = list_topics_dat(source, ignore)
-    print('Listed {} topics'.format(topics))
+    logging.debug('Listed {} topics'.format(topics))
     # write object numbers and values to csv files
     split_dat_in_csv(topics, source, output_folder)
-    print('Done splitting.')
+    logging.info('Done splitting.')
 
 
 def list_topics_dat(source, ignore):

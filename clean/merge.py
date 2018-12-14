@@ -16,9 +16,17 @@ import glob
 import csv
 import codecs
 import datetime
+import logging
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    filename='merge.log',
+    level=logging.INFO
+)
 
 def merge_dat():
-    print('Started merge csv script')
+    logging.info('Started merge csv script')
     # file paths
     os.chdir('data')
     source_folder = 'merge'
@@ -29,11 +37,11 @@ def merge_dat():
     data = csv_to_dict(file_paths)
     # write dat file
     write_dict_to_dat(data, merged_file)
-    print('Finished merge script')
+    logging.info('Finished merge script')
 
 
 def list_file_paths(source_folder):
-    print('Listing csv files in folder ' + source_folder)
+    logging.info('Listing csv files in folder ' + source_folder)
     csv_files = []
 
     for file in glob.glob(source_folder + "/*.csv"):
@@ -42,7 +50,7 @@ def list_file_paths(source_folder):
 
 
 def csv_to_dict(paths):
-    print('Loading csv files into dictionary')
+    logging.info('Loading csv files into dictionary')
     dict = {}
 
     for path in paths:
@@ -85,7 +93,7 @@ def utf_8_encoder(unicode_csv_data):
 
 
 def write_dict_to_dat(dict, file):
-    print('Writing dictionary to ' + file)
+    logging.info('Writing dictionary to ' + file)
     file = codecs.open(file, 'w', 'utf-8')
     object_numbers = dict.keys()
     object_numbers.sort()
