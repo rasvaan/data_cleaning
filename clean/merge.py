@@ -58,7 +58,7 @@ def csv_to_dict(paths):
         # sniff out delimiter and reset position
         dialect = csv.Sniffer().sniff(file.readline())
         file.seek(0)
-        csv_reader = unicode_csv_reader(file, dialect)
+        csv_reader = csv.reader(file, dialect)
         # extract tag from first row
         tag = next(csv_reader)[1]
 
@@ -80,32 +80,17 @@ def csv_to_dict(paths):
         file.close()
     return dict
 
-# unicode reader (https://docs.python.org/2/library/csv.html)
-def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):
-    # csv.py doesn't do Unicode; encode temporarily as UTF-8:
-    csv_reader = csv.reader(utf_8_encoder(unicode_csv_data),
-                            dialect=dialect, **kwargs)
-    for row in csv_reader:
-        # decode UTF-8 back to Unicode, cell by cell:
-        yield [unicode(cell, 'utf-8') for cell in row]
-
-
-def utf_8_encoder(unicode_csv_data):
-    for line in unicode_csv_data:
-        yield line.encode('utf-8')
-
 
 def write_dict_to_dat(dict, file):
     logging.info('Writing dictionary to ' + file)
     file = codecs.open(file, 'w', 'utf-8')
-    object_numbers = dict.keys()
-    object_numbers.sort()
+    object_numbers = sorted(dict.keys())
 
     # write each value of each object
     for object_number in object_numbers:
         object_dict = dict[object_number]
-        tags = object_dict.keys()
-        tags.sort()
+        tags = sorted(object_dict.keys())
+
         for tag in tags:
             values = object_dict[tag]
             for value in values:

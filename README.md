@@ -20,7 +20,7 @@ Script that merges multiple csv files into dat file that can easily be imported 
 
 To run the script, add files to 'merge' folder and run the following command:
 ```
-python clean/merge.py
+python3 clean/merge.py
 ```
 
 To run tests:
