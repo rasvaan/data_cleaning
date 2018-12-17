@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
 Split Adlib
 
@@ -8,7 +7,7 @@ type of value. After the values are cleaned, they can be exported again.
 """
 
 __author__ = "Chris Dijkshoorn"
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __license__ = "MIT"
 
 
@@ -21,7 +20,7 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
     filename='split.log',
-    level=logging.INFO
+    level=logging.DEBUG
 )
 
 def split_dat():
@@ -64,7 +63,7 @@ def split_dat_in_csv(topics, source, out):
         split_file = os.path.join(out, file_name)
         file = open(split_file, 'w')
         writer = csv.writer(file)
-        writer.writerow(['id', topic.encode('utf-8')])
+        writer.writerow(['id', topic])
         add_dat_values(topic, source, writer)
         file.close()
         file_count += 1
@@ -81,25 +80,22 @@ def add_dat_values(topic, source, writer):
 
             # record value
             if (line_start == topic):
-                values.append(unicode.strip(line[3:]))
+                values.append(str.strip(line[3:]))
             # update current tag when line start is not empty
             if (not line_start == '  '):
                 tag = line_start
             # merge newline value without tag with previous entry
             if (line_start == '  ' and tag == topic):
-                merge = unicode.strip(line[3:])
+                merge = str.strip(line[3:])
                 values[-1] = values[-1] + ' ' + merge
             # record object number
             if (line_start == 'IN'):
-                record_number = unicode.strip(line[3:])
+                record_number = str.strip(line[3:])
             # upon encountering ** write to csv
             if (line_start == '**'):
                 # create new row for each value
                 for value in values:
-                    writer.writerow([
-                        record_number.encode("utf-8"),
-                        value.encode("utf-8")
-                    ])
+                    writer.writerow([record_number, value])
                 # empty list of values and reset tag
                 # (start over for following record)
                 values = []

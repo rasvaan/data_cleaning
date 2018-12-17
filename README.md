@@ -6,12 +6,12 @@ Script that splits data exported from Adlib into multiple csv files.
 
 To run the script:
 ```
-python clean/split.py
+python3 clean/split.py
 ```
 
 To run tests:
 ```
-python -m unittest -v tests.test_split
+python3 -m unittest -v tests.test_split
 ```
 
 ## Merge CSV files into Adlib dat file
