@@ -25,5 +25,5 @@ python3 clean/merge.py
 
 To run tests:
 ```
-python -m unittest -v tests.test_merge
+python3 -m unittest -v tests.test_merge
 ```

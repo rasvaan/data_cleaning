@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Unittests for data cleaning
 """
@@ -50,14 +48,15 @@ class TestMerge(unittest.TestCase):
 
     def test_order(self):
         """ Test retaining of order values. """
+        order_retained = False
         csv_file = os.path.join(os.getcwd(), 'tests/data/merge/1_%0.csv')
         merged_file = os.path.join(os.getcwd(), 'tests/data/out/merge.dat')
         data_dict = merge.csv_to_dict([csv_file])
         merge.write_dict_to_dat(data_dict, merged_file)
         with open(merged_file) as dat_file:
-            if '%0 10000856\r\n%0 10000858' in dat_file.read():
-                unicode_present = True
-        self.assertEquals(unicode_present, True)
+            if '10000856\n%0 10000858' in dat_file.read():
+                order_retained = True
+        self.assertEquals(order_retained, True)
 
 
     def test_round_trip(self):
