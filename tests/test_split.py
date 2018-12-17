@@ -38,6 +38,7 @@ class TestListTopics(unittest.TestCase):
         topics2 = set([u'%0', u'BA', u'TF'])
         self.assertEquals(topics1, topics2)
 
+
 class TestOutputSplits(unittest.TestCase):
     """ TestCase for outputting split files """
 
@@ -118,6 +119,55 @@ class TestOutputSplits(unittest.TestCase):
         file.close()
         number_lines = sum(1 for line in open(split_file))
         self.assertEquals(number_lines, 2)
+
+
+class TestUnicode(unittest.TestCase):
+    """ Test handling of unicode """
+
+    def tearDown(self):
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        out = os.path.join(data_folder, 'out')
+        contents = os.listdir(out)
+
+        for content in contents:
+            path = os.path.join(out, content)
+            if os.path.isfile(path):
+                os.remove(path)
+
+    def test_unicode_in_csv(self):
+        """ Test unicode character in source. """
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source_file = os.path.join(data_folder, 'split/unicode.dat')
+        character_byte_array = []
+        with open(source_file, 'rb') as f:
+            byte = f.read(1)
+            while byte != '':
+                character_byte_array.append(byte)
+                byte = f.read(1)
+        print(character_byte_array)
+        check_byte_array = ['B', 'E', ' ', '\xc3', '\xbe', '\r', '\n', 'I', 'N', ' ', '\xc2', '\xae', '\r', '\n', '*', '*', '\r', '\n']
+        self.assertEquals(character_byte_array, check_byte_array)
+
+    def test_unicode_in_dat(self):
+        """ Test unicode character in source. """
+        topic = 'BE'
+        data_folder = os.path.join(os.getcwd(), 'tests/data')
+        source = os.path.join(data_folder, 'split/unicode.dat')
+        out = os.path.join(data_folder, 'out')
+        split_file = os.path.join(out, topic + '.csv')
+        file = open(split_file, 'w')
+        writer = csv.writer(file)
+        split.add_dat_values(topic, source, writer)
+        file.close()
+        character_byte_array = []
+        with open(split_file, "rb") as f:
+            byte = f.read(1)
+            while byte != "":
+                character_byte_array.append(byte)
+                byte = f.read(1)
+        check_byte_array = ['\xc2', '\xae', ',', '\xc3', '\xbe', '\r', '\n']
+        self.assertEquals(character_byte_array, check_byte_array)
+
 
 if __name__ == '__main__':
     unittest.main()
