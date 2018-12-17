@@ -134,38 +134,38 @@ class TestUnicode(unittest.TestCase):
             if os.path.isfile(path):
                 os.remove(path)
 
-    def test_unicode_in_csv(self):
+    def test_unicode_in_dat(self):
         """ Test unicode character in source. """
         data_folder = os.path.join(os.getcwd(), 'tests/data')
         source_file = os.path.join(data_folder, 'split/unicode.dat')
         character_byte_array = []
         with open(source_file, 'rb') as f:
             byte = f.read(1)
-            while byte != '':
+            while byte != b'':
                 character_byte_array.append(byte)
                 byte = f.read(1)
         print(character_byte_array)
-        check_byte_array = ['B', 'E', ' ', '\xc3', '\xbe', '\r', '\n', 'I', 'N', ' ', '\xc2', '\xae', '\r', '\n', '*', '*', '\r', '\n']
+        check_byte_array = [b'B', b'\xc3', b'\x89', b' ', b'\xc3', b'\xbe', b'\r', b'\n', b'I', b'\xc3', b'\x91', b' ', b'\xc2', b'\xae', b'\r', b'\n', b'*', b'*', b'\r', b'\n']
         self.assertEquals(character_byte_array, check_byte_array)
 
-    def test_unicode_in_dat(self):
-        """ Test unicode character in source. """
+    def test_unicode_in_csv(self):
+        """ Test unicode character in output csv. """
         topic = 'BE'
         data_folder = os.path.join(os.getcwd(), 'tests/data')
-        source = os.path.join(data_folder, 'split/unicode.dat')
+        dat_file = os.path.join(data_folder, 'split/unicode.dat')
         out = os.path.join(data_folder, 'out')
-        split_file = os.path.join(out, topic + '.csv')
-        file = open(split_file, 'w')
+        csv_file = os.path.join(out, topic + '.csv')
+        file = open(csv_file, 'w')
         writer = csv.writer(file)
-        split.add_dat_values(topic, source, writer)
+        split.add_dat_values(topic, dat_file, writer)
         file.close()
         character_byte_array = []
-        with open(split_file, "rb") as f:
+        with open(dat_file, "rb") as f:
             byte = f.read(1)
-            while byte != "":
+            while byte != b'':
                 character_byte_array.append(byte)
                 byte = f.read(1)
-        check_byte_array = ['\xc2', '\xae', ',', '\xc3', '\xbe', '\r', '\n']
+        check_byte_array = [b'B', b'\xc3', b'\x89', b' ', b'\xc3', b'\xbe', b'\r', b'\n', b'I', b'\xc3', b'\x91', b' ', b'\xc2', b'\xae', b'\r', b'\n', b'*', b'*', b'\r', b'\n']
         self.assertEquals(character_byte_array, check_byte_array)
 
 
