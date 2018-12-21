@@ -1,5 +1,7 @@
 rma_adlib_tagged.dat
 
+data/merge
+data/split
 out/
 .DS_Store
 
